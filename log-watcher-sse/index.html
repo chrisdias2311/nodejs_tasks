@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tail -f</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const eventSource = new EventSource("/events");
+
+        eventSource.onmessage = function (event) {
+          const data = JSON.parse(event.data);      // Parses the JSON string into an array
+          console.log(data);
+
+          data.forEach((log) => {
+            document.getElementById("list").innerHTML +=
+              "<p>" + log + "<br></p>";
+          });
+        };
+
+        eventSource.onerror = function (event) {
+          console.error("EventSource failed:", event);
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Log Watcher</h1>
+    <div id="list">    </div>
+  </body>
+</html>

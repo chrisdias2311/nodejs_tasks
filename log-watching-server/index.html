@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tail -f</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var socket = io("ws://localhost:3000");
+        socket.on("update-log", function (data) {
+          console.log(data);
+          
+          for (i of data) {
+            document.getElementById("list").innerHTML +=
+              "<p>" + i + "<br></p>";
+          }
+        });
+        socket.on("init", function (data) {
+          console.log(data);
+          for (i of data) {
+            document.getElementById("list").innerHTML +=
+              "<p>" + i + "<br></p>";
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Log Watcher</h1>
+    <div id="list"></div>
+  </body>
+</html>
